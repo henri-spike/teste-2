@@ -1,0 +1,59 @@
+/* popup.css - estilos simples para o popup */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 320px;
+  color: #222;
+}
+.container {
+  padding: 16px;
+}
+h1 {
+  font-size: 18px;
+  margin: 0 0 8px 0;
+}
+.warning {
+  color: #b71c1c;
+  font-weight: bold;
+}
+label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.primary {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.primary:active { transform: translateY(1px); }
+.note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #555;
+}
+.toast {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.toast.hidden { display: none; }
+.toast.success { background: #e8f5e9; color: #1b5e20; }
+.toast.error { background: #ffebee; color: #b71c1c; }

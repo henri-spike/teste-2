@@ -1,0 +1,45 @@
+<!--
+  Desbloqueador Remoto - Extensão Auxiliar
+
+  Instruções rápidas:
+  1) Abra `popup.js` e substitua o valor de ADMIN_TOKEN: const ADMIN_TOKEN = "<COLE_AQUI_O_TOKEN_FIXO>";
+     -> Troque <COLE_AQUI_O_TOKEN_FIXO> pelo token fornecido pelo administrador.
+  2) Você pode inserir o ID da extensão principal no campo abaixo ou substituir o
+     valor padrão do input pelo ID no arquivo `popup.html` se preferir.
+  3) Carregue a extensão em chrome://extensions (modo desenvolvedor) para testar.
+
+  AVISO: Este token dá controle total — mantenha-o seguro. Qualquer pessoa com este token
+  pode ordenar à extensão principal que remova todos os sites bloqueados.
+-->
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Desbloqueador Remoto</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Desbloqueador Remoto</h1>
+
+      <p class="warning">AVISO: Este token dá controle total — mantenha-o seguro.</p>
+
+      <label for="targetId">Target extension ID</label>
+      <!--
+        Você pode colocar um valor padrão aqui (exemplo comentado). Substitua pelo
+        ID real da extensão principal se quiser embutir.
+      -->
+      <input id="targetId" type="text" placeholder="Coloque o ID da extensão alvo aqui" />
+
+      <button id="sendBtn" class="primary">Enviar comando de desbloqueio</button>
+
+      <p class="note">Antes de enviar, verifique que a extensão principal aceite mensagens externas e
+      que você possua o token correto embutido em <code>popup.js</code>.</p>
+
+      <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

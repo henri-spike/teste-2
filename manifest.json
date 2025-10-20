@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Desbloqueador Remoto (Auxiliar)",
+  "description": "Extensão auxiliar que envia um comando autenticado para outra extensão remover todos os sites bloqueados. NOTAS: Cole o token fixo no arquivo popup.js na constante ADMIN_TOKEN (substitua <COLE_AQUI_O_TOKEN_FIXO>). O ID da extensão principal pode ser inserido no campo do popup ou ajustado via DEFAULT_TARGET_EXTENSION_ID em popup.js. Para instalar: abra chrome://extensions -> Modo desenvolvedor -> Carregar sem compactação.",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "notifications"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Desbloqueador Remoto"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
