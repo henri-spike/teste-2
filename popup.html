@@ -26,13 +26,20 @@
       <p class="warning">AVISO: Este token dá controle total — mantenha-o seguro.</p>
 
       <label for="targetId">Target extension ID</label>
-      <!--
-        Você pode colocar um valor padrão aqui (exemplo comentado). Substitua pelo
-        ID real da extensão principal se quiser embutir.
-      -->
       <input id="targetId" type="text" placeholder="Coloque o ID da extensão alvo aqui" />
 
-      <button id="sendBtn" class="primary">Enviar comando de desbloqueio</button>
+      <div class="row">
+        <button id="fetchBtn" class="primary small">Buscar sites bloqueados</button>
+        <button id="removeSelectedBtn" class="primary small" disabled>Remover selecionados</button>
+      </div>
+
+      <div id="sitesContainer">
+        <p class="note">Nenhuma lista carregada. Clique em "Buscar sites bloqueados".</p>
+      </div>
+
+      <div class="row">
+        <button id="restoreBtn" class="primary" disabled>Restaurar última remoção</button>
+      </div>
 
       <p class="note">Antes de enviar, verifique que a extensão principal aceite mensagens externas e
       que você possua o token correto embutido em <code>popup.js</code>.</p>

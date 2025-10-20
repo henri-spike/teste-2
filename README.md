@@ -47,20 +47,51 @@ const ADMIN_TOKEN_EXPECTED = "<TOKEN_ESPERADO_PELA_PRINCIPAL>";
 
 chrome.runtime.onMessageExternal.addListener((msg, sender, sendResponse) => {
 	try {
-		if (!msg || msg.action !== 'clearBlockedSites') {
-			sendResponse({ success: false, error: 'ação inválida' });
-			return;
+		if (!msg || !msg.action) { sendResponse({ success: false, error: 'ação inválida' }); return; }
+
+		// Validar token antes de qualquer ação
+		if (msg.token !== ADMIN_TOKEN_EXPECTED) { sendResponse({ success: false, error: 'token inválido' }); return; }
+
+		// Contrato de mensagens suportado pela extensão auxiliar:
+		// - { action: 'getBlockedSites', token } -> responder { success: true, sites: [ ... ] }
+		// - { action: 'clearBlockedSites', token, sites: [ ... ] } -> remover os sites listados e responder { success: true }
+		// - { action: 'restoreBlockedSites', token, sites: [ ... ] } -> re-adicionar os sites e responder { success: true }
+
+		if (msg.action === 'getBlockedSites') {
+			// Ler a lista atual de sites bloqueados
+			// Exemplo hipotético: assume que a extensão guarda em chrome.storage.local.blockedSites
+			chrome.storage.local.get(['blockedSites'], (items) => {
+				const sites = items.blockedSites || [];
+				sendResponse({ success: true, sites });
+			});
+			return true; // indica resposta assíncrona
 		}
 
-		if (msg.token !== ADMIN_TOKEN_EXPECTED) {
-			sendResponse({ success: false, error: 'token inválido' });
-			return;
+		if (msg.action === 'clearBlockedSites') {
+			const toRemove = Array.isArray(msg.sites) ? msg.sites : [];
+			// Lógica: filtrar os sites removendo os que estão em toRemove
+			chrome.storage.local.get(['blockedSites'], (items) => {
+				const existing = items.blockedSites || [];
+				const remaining = existing.filter(s => !toRemove.includes(s));
+				chrome.storage.local.set({ blockedSites: remaining }, () => {
+					sendResponse({ success: true });
+				});
+			});
+			return true;
 		}
 
-		// Aqui execute a lógica para limpar a lista de sites bloqueados
-		// ex: storage.local.set({ blockedSites: [] }) ou chamada ao seu código interno
-
-		sendResponse({ success: true });
+		if (msg.action === 'restoreBlockedSites') {
+			const toRestore = Array.isArray(msg.sites) ? msg.sites : [];
+			chrome.storage.local.get(['blockedSites'], (items) => {
+				const existing = items.blockedSites || [];
+				// Re-adiciona (mantendo unicidade)
+				const merged = Array.from(new Set([...existing, ...toRestore]));
+				chrome.storage.local.set({ blockedSites: merged }, () => {
+					sendResponse({ success: true });
+				});
+			});
+			return true;
+		}
 	} catch (err) {
 		console.error(err);
 		sendResponse({ success: false, error: String(err) });
